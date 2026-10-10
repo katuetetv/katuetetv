@@ -385,37 +385,45 @@ ul { list-style: none; }
   border: none;
 }
 
-/* Banner de desmuteo elegante */
+/* Botón flotante para activar sonido */
 .unmute-overlay {
   position: absolute;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(10, 10, 12, 0.88);
-  border: 1px solid var(--orange);
+  bottom: 24px;
+  right: 24px;
+  background: var(--grad);
+  border: none;
   color: var(--white);
-  padding: 10px 22px;
+  padding: 12px 24px;
   border-radius: 50px;
   font-family: var(--font);
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: 0.5px;
   display: inline-flex;
   align-items: center;
   gap: 10px;
   cursor: pointer;
-  z-index: 20;
-  box-shadow: 0 4px 25px rgba(254, 133, 26, 0.4);
+  z-index: 25;
+  box-shadow: 0 4px 30px rgba(237, 28, 49, 0.6), 0 0 20px rgba(254, 133, 26, 0.4);
   backdrop-filter: blur(10px);
-  transition: transform var(--trans), background var(--trans);
-  animation: bounceGlow 2s infinite ease-in-out;
+  transition: transform var(--trans), box-shadow var(--trans);
+  animation: pulseButton 2s infinite ease-in-out;
 }
 .unmute-overlay:hover {
-  background: rgba(237, 28, 49, 0.9);
-  transform: translateX(-50%) scale(1.04);
+  transform: scale(1.06);
+  box-shadow: 0 6px 40px rgba(254, 133, 26, 0.7);
 }
-@keyframes bounceGlow {
-  0%, 100% { transform: translateX(-50%) translateY(0); }
-  50%       { transform: translateX(-50%) translateY(-4px); }
+.unmute-pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 10px #fff;
+  animation: livePulse 1s infinite;
+}
+@keyframes pulseButton {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-3px); }
 }
 
 /* ── BARRA INFERIOR DE CONTROLES EXCLUSIVOS ── */
