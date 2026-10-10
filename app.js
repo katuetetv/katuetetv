@@ -1,126 +1,152 @@
 /* =====================================================
-   KATUETE TV — JavaScript Principal
-   Player em vivo sem controles de avanço
+   KATUETE TV — Transmisión Directa y Continua
+   Player de canal único sin avance manual
    ===================================================== */
 
-// ── Programas / Videos ─────────────────────────────────
-const PROGRAMS = [
-  {
-    title: "Looney Tunes en Español Latino",
-    url: "https://www.youtube.com/watch?v=Er5iy1Cyovg"
-  },
-  {
-    title: "Pink Panther — Compilación 35 Minutos",
-    url: "https://www.youtube.com/watch?v=nWNqU0gv_P8"
-  },
-  {
-    title: "Bob Esponja — Cocina Todo Menos Cangreburguers",
-    url: "https://www.youtube.com/watch?v=zKMeibdY_SM"
+// ── Configuración del Canal Principal ─────────────────
+// Video en transmisión continua (Looney Tunes en Español Latino)
+const LIVE_STREAM_CONFIG = {
+  title: "Katuete TV — Señal Oficial en Vivo",
+  videoId: "Er5iy1Cyovg"
+};
+
+let ytPlayerInstance = null;
+let isPlaying = false;
+
+// ── Cargar YouTube IFrame API de forma asíncrona ──────
+(function loadYouTubeAPI() {
+  const tag = document.createElement("script");
+  tag.src = "https://www.youtube.com/iframe_api";
+  const firstScriptTag = document.getElementsByTagName("script")[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+})();
+
+// ── Callback global llamado automáticamente por YouTube API ──
+window.onYouTubeIframeAPIReady = function() {
+  ytPlayerInstance = new YT.Player("ytPlayer", {
+    videoId: LIVE_STREAM_CONFIG.videoId,
+    playerVars: {
+      autoplay: 1,         // Iniciar automáticamente
+      controls: 0,         // Oculta los controles nativos y barra de progreso (no adelantar)
+      disablekb: 1,        // Deshabilita teclas de flechas (no adelantar)
+      fs: 0,               // Deshabilita fullscreen nativo (usamos el nuestro)
+      modestbranding: 1,   // Branding mínimo
+      rel: 0,              // Sin videos relacionados
+      playsinline: 1,      // Reproducir en línea en móviles
+      iv_load_policy: 3,   // Sin anotaciones
+      loop: 1,             // Repetir en bucle continuo de TV
+      playlist: LIVE_STREAM_CONFIG.videoId
+    },
+    events: {
+      onReady: onPlayerReady,
+      onStateChange: onPlayerStateChange
+    }
+  });
+};
+
+// ── Evento: Player Listo ──────────────────────────────
+function onPlayerReady(event) {
+  // Intentar reproducir automáticamente
+  event.target.playVideo();
+
+  // Verificar si el navegador bloqueó el audio debido a políticas de autoplay
+  setTimeout(() => {
+    if (ytPlayerInstance && typeof ytPlayerInstance.isMuted === "function") {
+      if (ytPlayerInstance.isMuted()) {
+        showUnmuteOverlay();
+      }
+    }
+  }, 1000);
+}
+
+// ── Evento: Cambio de Estado del Player ───────────────
+function onPlayerStateChange(event) {
+  const iconPlay = document.getElementById("iconPlay");
+  const iconPause = document.getElementById("iconPause");
+  const textPlayPause = document.getElementById("textPlayPause");
+
+  if (event.data === YT.PlayerState.PLAYING) {
+    isPlaying = true;
+    if (iconPlay) iconPlay.style.display = "none";
+    if (iconPause) iconPause.style.display = "inline";
+    if (textPlayPause) textPlayPause.textContent = "Pausar";
+  } else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
+    isPlaying = false;
+    if (iconPlay) iconPlay.style.display = "inline";
+    if (iconPause) iconPause.style.display = "none";
+    if (textPlayPause) textPlayPause.textContent = "Reproducir";
+
+    // Si terminó, reiniciar para mantener aspecto de transmisión continua
+    if (event.data === YT.PlayerState.ENDED) {
+      event.target.playVideo();
+    }
   }
-];
-
-// ── Extraer Video ID de YouTube ────────────────────────
-function getYouTubeId(url) {
-  const match = url.match(/(?:v=|youtu\.be\/)([A-Za-z0-9_-]{11})/);
-  return match ? match[1] : null;
 }
 
-// ── Construir URL embed SOLO con play/fullscreen, sin avanzar ──
-function buildEmbedUrl(videoId) {
-  const params = new URLSearchParams({
-    autoplay: "1",
-    controls: "1",       // mostrar controles del player
-    disablekb: "1",      // deshabilitar teclado (no skip)
-    fs: "1",             // botón fullscreen activado
-    iv_load_policy: "3", // sin anotaciones
-    modestbranding: "1", // branding mínimo
-    rel: "0",            // sin videos relacionados
-    start: "0",
-    playsinline: "1",
-    cc_load_policy: "0",
-    // No hay forma 100% nativa de ocultar barra de progreso sin API,
-    // pero con la API de IFrame podemos gestionar eventos.
-  });
-  return `https://www.youtube.com/embed/${videoId}?${params.toString()}`;
+// ── Overlay para activar audio ─────────────────────────
+function showUnmuteOverlay() {
+  const unmuteBtn = document.getElementById("unmuteOverlay");
+  if (unmuteBtn) {
+    unmuteBtn.style.display = "inline-flex";
+    unmuteBtn.onclick = () => {
+      if (ytPlayerInstance) {
+        ytPlayerInstance.unMute();
+        ytPlayerInstance.setVolume(100);
+      }
+      unmuteBtn.style.display = "none";
+    };
+  }
 }
 
-// ── Estado ─────────────────────────────────────────────
-let currentIndex = -1;
+// ── Controles personalizados del Player ────────────────
+function setupCustomControls() {
+  const btnPlayPause = document.getElementById("btnPlayPause");
+  const btnFullscreen = document.getElementById("btnFullscreen");
+  const playerContainer = document.getElementById("playerContainer");
 
-// ── DOM ────────────────────────────────────────────────
-const playlist       = document.getElementById("playlist");
-const playlistCount  = document.getElementById("playlistCount");
-const ytPlayer       = document.getElementById("ytPlayer");
-const ytContainer    = document.getElementById("ytPlayerContainer");
-const placeholder    = document.getElementById("playerPlaceholder");
-const titleEl        = document.getElementById("currentProgramTitle");
-const timeEl         = document.getElementById("playerTime");
+  // 1. Botón Play / Pausa
+  if (btnPlayPause) {
+    btnPlayPause.addEventListener("click", () => {
+      if (!ytPlayerInstance || typeof ytPlayerInstance.getPlayerState !== "function") return;
 
-// ── Renderizar Playlist ────────────────────────────────
-function renderPlaylist() {
-  playlist.innerHTML = "";
-  playlistCount.textContent = `${PROGRAMS.length} programa${PROGRAMS.length !== 1 ? "s" : ""}`;
-
-  PROGRAMS.forEach((prog, i) => {
-    const li = document.createElement("li");
-    li.className = "playlist-item";
-    li.id = `prog-${i}`;
-    li.setAttribute("role", "button");
-    li.setAttribute("aria-label", `Ver ${prog.title}`);
-    li.setAttribute("tabindex", "0");
-
-    li.innerHTML = `
-      <div class="playlist-item-num">${i + 1}</div>
-      <div class="playlist-item-info">
-        <div class="playlist-item-title">${prog.title}</div>
-        <div class="playlist-item-live">● EN VIVO</div>
-      </div>
-      <div class="playlist-item-play">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M8 5v14l11-7z"/>
-        </svg>
-      </div>
-    `;
-
-    li.addEventListener("click", () => playProgram(i));
-    li.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); playProgram(i); }
+      const state = ytPlayerInstance.getPlayerState();
+      if (state === YT.PlayerState.PLAYING) {
+        ytPlayerInstance.pauseVideo();
+      } else {
+        ytPlayerInstance.unMute();
+        ytPlayerInstance.playVideo();
+        const unmuteBtn = document.getElementById("unmuteOverlay");
+        if (unmuteBtn) unmuteBtn.style.display = "none";
+      }
     });
+  }
 
-    playlist.appendChild(li);
-  });
-}
-
-// ── Reproducir Programa ────────────────────────────────
-function playProgram(index) {
-  if (index === currentIndex) return; // ya está reproduciendo
-  currentIndex = index;
-
-  const prog = PROGRAMS[index];
-  const videoId = getYouTubeId(prog.url);
-  if (!videoId) return;
-
-  // Actualizar título
-  titleEl.textContent = prog.title;
-
-  // Cambiar iframe src
-  ytPlayer.src = buildEmbedUrl(videoId);
-
-  // Mostrar player, ocultar placeholder
-  placeholder.style.display = "none";
-  ytContainer.style.display = "block";
-
-  // Marcar activo en playlist
-  document.querySelectorAll(".playlist-item").forEach((el, i) => {
-    el.classList.toggle("active", i === index);
-  });
-
-  // Scroll suave al player
-  document.getElementById("player-section").scrollIntoView({ behavior: "smooth", block: "start" });
+  // 2. Botón Pantalla Completa
+  if (btnFullscreen && playerContainer) {
+    btnFullscreen.addEventListener("click", () => {
+      if (!document.fullscreenElement) {
+        if (playerContainer.requestFullscreen) {
+          playerContainer.requestFullscreen();
+        } else if (playerContainer.webkitRequestFullscreen) {
+          playerContainer.webkitRequestFullscreen();
+        } else if (playerContainer.msRequestFullscreen) {
+          playerContainer.msRequestFullscreen();
+        }
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        }
+      }
+    });
+  }
 }
 
 // ── Reloj en vivo ──────────────────────────────────────
 function updateClock() {
+  const timeEl = document.getElementById("playerTime");
+  if (!timeEl) return;
   const now = new Date();
   const hh  = String(now.getHours()).padStart(2, "0");
   const mm  = String(now.getMinutes()).padStart(2, "0");
@@ -131,6 +157,7 @@ function updateClock() {
 // ── Partículas de fondo animadas ───────────────────────
 function createParticles() {
   const container = document.getElementById("bgParticles");
+  if (!container) return;
   const count = 30;
   const colors = ["#ed1c31", "#FE851A", "#ff6b6b", "#ffa040"];
 
@@ -160,6 +187,7 @@ function createParticles() {
 // ── Header scroll shadow ───────────────────────────────
 function initHeaderScroll() {
   const header = document.querySelector(".site-header");
+  if (!header) return;
   window.addEventListener("scroll", () => {
     if (window.scrollY > 20) {
       header.style.borderBottomColor = "rgba(237, 28, 49, 0.3)";
@@ -171,34 +199,13 @@ function initHeaderScroll() {
   });
 }
 
-// ── Intersection Observer: animación al entrar ─────────
-function initScrollAnimations() {
-  const sections = document.querySelectorAll(
-    ".hero-section, .player-section, .about-section, .features-section, .contact-section, .feature-card"
-  );
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.style.animationPlayState = "running";
-        obs.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.1 });
-
-  sections.forEach(el => {
-    el.style.animationPlayState = "paused";
-    obs.observe(el);
-  });
-}
-
 // ── Init ───────────────────────────────────────────────
 document.addEventListener("DOMContentLoaded", () => {
   createParticles();
-  renderPlaylist();
+  setupCustomControls();
   initHeaderScroll();
-  initScrollAnimations();
 
-  // Reloj
+  // Reloj en tiempo real
   updateClock();
   setInterval(updateClock, 1000);
 });

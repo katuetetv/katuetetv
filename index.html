@@ -4,13 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Katuete TV — En Vivo</title>
-  <meta name="description" content="Katuete TV — Tu canal favorito de entretenimiento en vivo. Series, dibujos animados y más, disponible las 24 horas del día." />
+  <meta name="description" content="Katuete TV — Tu canal favorito de entretenimiento en vivo. Transmisión directa las 24 horas del día." />
   <meta name="keywords" content="Katuete TV, televisión en vivo, canal online, entretenimiento, dibujos animados" />
   <meta property="og:title" content="Katuete TV — En Vivo" />
-  <meta property="og:description" content="Tu canal favorito de entretenimiento en vivo." />
+  <meta property="og:description" content="Tu canal favorito de entretenimiento en vivo las 24 horas." />
   <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -30,7 +30,7 @@
         <span>EN VIVO</span>
       </div>
       <nav class="site-nav">
-        <a href="#player-section" id="nav-programacion">Programación</a>
+        <a href="#player-section" id="nav-transmision">Transmisión</a>
         <a href="#about-section" id="nav-nosotros">Nosotros</a>
         <a href="#contact-section" id="nav-contacto">Contacto</a>
       </nav>
@@ -41,12 +41,12 @@
   <section class="hero-section">
     <div class="hero-glow"></div>
     <div class="hero-content">
-      <p class="hero-eyebrow">Transmisión en Vivo</p>
+      <p class="hero-eyebrow">Transmisión Oficial en Vivo</p>
       <h1 class="hero-title">Tu entretenimiento<br /><span class="gradient-text">sin interrupciones</span></h1>
-      <p class="hero-subtitle">Disfruta de los mejores programas en tiempo real, cuando quieras y donde quieras.</p>
+      <p class="hero-subtitle">Disfruta de la señal directa en tiempo real las 24 horas del día, en cualquier dispositivo.</p>
       <a href="#player-section" class="cta-btn" id="btn-ver-ahora">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-        Ver Ahora
+        Ver en Vivo
       </a>
     </div>
     <div class="hero-visual">
@@ -59,59 +59,63 @@
     </div>
   </section>
 
-  <!-- Player Section -->
+  <!-- Player Section (Canal único y automático) -->
   <section class="player-section" id="player-section">
     <div class="section-header">
-      <h2 class="section-title">Programación <span class="gradient-text">en Vivo</span></h2>
-      <p class="section-subtitle">Selecciona un programa y disfruta de la transmisión en tiempo real</p>
+      <h2 class="section-title">Transmisión <span class="gradient-text">en Vivo</span></h2>
+      <p class="section-subtitle">Señal continua de televisión online sin interrupciones</p>
     </div>
 
-    <div class="player-layout">
-      <!-- Main Player -->
-      <div class="player-main">
-        <div class="player-container" id="playerContainer">
-          <div class="player-header-bar">
-            <div class="live-indicator">
-              <span class="live-dot-sm"></span>
-              <span id="currentProgramTitle">Selecciona un programa</span>
-            </div>
-            <div class="player-controls-top">
-              <span class="player-time" id="playerTime">--:--</span>
-            </div>
+    <div class="player-single-layout">
+      <div class="player-container" id="playerContainer">
+        <!-- Barra superior del player -->
+        <div class="player-header-bar">
+          <div class="live-indicator">
+            <span class="live-dot-sm"></span>
+            <span id="currentProgramTitle">Katuete TV — Señal Oficial en Vivo</span>
           </div>
-          <div class="player-wrapper" id="playerWrapper">
-            <div class="player-placeholder" id="playerPlaceholder">
-              <img src="katuetetvlogo.png" alt="Katuete TV" class="placeholder-logo" />
-              <p class="placeholder-text">Selecciona un programa de la lista</p>
-              <div class="placeholder-pulse"></div>
-            </div>
-            <div id="ytPlayerContainer" class="yt-player-container" style="display:none;">
-              <iframe
-                id="ytPlayer"
-                src=""
-                title="Katuete TV Player"
-                frameborder="0"
-                allow="autoplay; encrypted-media; picture-in-picture"
-                allowfullscreen
-                referrerpolicy="strict-origin-when-cross-origin"
-              ></iframe>
-            </div>
+          <div class="player-controls-top">
+            <span class="player-time" id="playerTime">--:--:--</span>
           </div>
         </div>
-      </div>
 
-      <!-- Program List -->
-      <div class="playlist-sidebar">
-        <div class="playlist-header">
-          <h3 class="playlist-title">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg>
-            Programas
-          </h3>
-          <span class="playlist-count" id="playlistCount">0 programas</span>
+        <!-- Contenedor del video con carga directa -->
+        <div class="player-wrapper" id="playerWrapper">
+          <div id="ytPlayer"></div>
+
+          <!-- Banner de desmuteo si el navegador inicia con sonido bloqueado -->
+          <button id="unmuteOverlay" class="unmute-overlay" style="display:none;" aria-label="Activar audio">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+            </svg>
+            <span>Haga clic para activar el sonido</span>
+          </button>
         </div>
-        <ul class="playlist" id="playlist">
-          <!-- Generado por JS -->
-        </ul>
+
+        <!-- Controles exclusivos: únicamente Play y Pantalla Completa -->
+        <div class="player-bottom-bar">
+          <button class="player-btn" id="btnPlayPause" aria-label="Reproducir o pausar transmisión">
+            <svg id="iconPlay" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" style="display:none;">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+            <svg id="iconPause" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+            </svg>
+            <span id="textPlayPause">Pausar</span>
+          </button>
+
+          <div class="player-live-badge-mini">
+            <span class="live-dot-sm"></span>
+            <span>TRANSMISIÓN EN VIVO</span>
+          </div>
+
+          <button class="player-btn" id="btnFullscreen" aria-label="Expandir a pantalla completa">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>
+            </svg>
+            <span>Pantalla Completa</span>
+          </button>
+        </div>
       </div>
     </div>
   </section>
@@ -124,11 +128,11 @@
         <h2 class="section-title">¿Qué es <span class="gradient-text">Katuete TV</span>?</h2>
         <p class="about-text">
           Katuete TV es tu canal de entretenimiento online disponible las 24 horas del día, los 7 días de la semana. 
-          Ofrecemos una programación variada con los mejores dibujos animados clásicos, series y contenido familiar 
+          Ofrecemos una transmisión continua con los mejores dibujos animados clásicos, series y contenido familiar 
           de alta calidad para toda la audiencia.
         </p>
         <p class="about-text">
-          Nuestro compromiso es brindarte la mejor experiencia de televisión online, con una transmisión fluida 
+          Nuestro compromiso es brindarte la mejor experiencia de televisión online, con una señal fluida 
           y contenido de primer nivel, completamente gratis.
         </p>
         <div class="about-stats">
@@ -169,8 +173,8 @@
         <div class="feature-icon">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
         </div>
-        <h3 class="feature-title">Contenido Variado</h3>
-        <p class="feature-text">Series, animaciones y programas para toda la familia.</p>
+        <h3 class="feature-title">Contenido Continuo</h3>
+        <p class="feature-text">Series, animaciones y programas para toda la familia sin esperas.</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">
@@ -218,7 +222,7 @@
         <img src="katuetetvlogo.png" alt="Katuete TV" class="footer-logo-img" />
       </div>
       <p class="footer-copy">&copy; 2026 Katuete TV — Todos los derechos reservados.</p>
-      <p class="footer-tagline">Tu canal, tu entretenimiento.</p>
+      <p class="footer-tagline">Tu canal, tu entretenimiento en vivo.</p>
     </div>
   </footer>
 

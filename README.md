@@ -1,34 +1,36 @@
 # Katuete TV
 
-Canal de entretenimiento en vivo. Disfruta de los mejores programas animados y series en tiempo real, las 24 horas del día.
+Canal de entretenimiento en vivo. Señal directa continua las 24 horas del día.
 
 ## 🌐 Ver en línea
 
-[**→ Ver Katuete TV en Vivo**](https://[tu-usuario].github.io/katuete-tv/)
+[**→ Ver Katuete TV en Vivo**](https://[tu-usuario].github.io/[nombre-repositorio]/)
 
 ## 📺 Características
 
-- Transmisión en vivo de programas de entretenimiento
-- Diseño oscuro moderno con degradado rojo y naranja
-- Player de video con aspecto "en vivo" (sin posibilidad de avanzar)
-- Lista de programas seleccionable
-- Totalmente en español
-- Optimizado para GitHub Pages
+- **Carga directa e inmediata:** Al abrir el sitio web, el player se inicializa automáticamente.
+- **Canal único en vivo:** Transmisión centralizada y continua estilo televisión real.
+- **Sin barra de avance (Anti-skip):** Controles nativos y teclado bloqueados (`controls=0`, `disablekb=1`), garantizando la experiencia real de emisión en directo.
+- **Controles exclusivos:** Únicamente botón de **Play / Pausa** y botón de **Pantalla Completa**.
+- **Diseño Ultra Dark:** Fondo negro profundo con degradado **Rojo `#ed1c31` y Naranja `#FE851A`**.
+- **100% en Español** y optimizado para **GitHub Pages**.
 
-## 🚀 Hosting en GitHub Pages
+## 🚀 Cómo hospedar en GitHub Pages
 
-1. Sube todos los archivos a un repositorio en GitHub
-2. Ve a **Settings → Pages**
-3. En **Source**, selecciona `main` branch y la carpeta raíz `/`
-4. El sitio estará disponible en `https://[tu-usuario].github.io/[nombre-repo]/`
+1. Sube todos los archivos de esta carpeta a tu repositorio en GitHub.
+2. En GitHub, entra en **Settings → Pages**.
+3. En **Source**, selecciona la rama `main` (o `master`) y la carpeta `/ (root)`.
+4. Haz clic en **Save**. En un par de minutos tu sitio estará en vivo en:  
+   `https://[tu-usuario].github.io/[nombre-repositorio]/`
 
-## 📁 Archivos
+## 📁 Estructura de Archivos
 
 | Archivo | Descripción |
 |---------|-------------|
-| `index.html` | Página principal del sitio |
-| `style.css` | Estilos (tema negro + degradado rojo/naranja) |
-| `app.js` | Lógica del player y lista de programas |
-| `katuetetvlogo.png` | Logo de Katuete TV |
+| `index.html` | Estructura web con player centralizado y diseño moderno |
+| `style.css` | Estilos oscuros, degradado rojo-naranja y diseño responsive |
+| `app.js` | Inicialización automática con YouTube Iframe API y controles de reproducción |
+| `katuetetvlogo.png` | Logo oficial de Katuete TV |
+| `videos.txt` | Lista de referencia de videos |
 
-## ©️ Katuete TV — Todos los derechos reservados 2026
+## ©️ Katuete TV — 2026
