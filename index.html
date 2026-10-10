@@ -4,10 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Katuete TV — En Vivo</title>
-  <meta name="description" content="Katuete TV — Tu canal favorito de entretenimiento en vivo. Transmisión directa las 24 horas del día." />
-  <meta name="keywords" content="Katuete TV, televisión en vivo, canal online, entretenimiento, dibujos animados" />
+  <meta name="description" content="Katuete TV — Transmisión en Vivo. Señal continua de televisión online sin interrupciones." />
+  <meta name="keywords" content="Katuete TV, televisión en vivo, señal online, transmisión directa" />
   <meta property="og:title" content="Katuete TV — En Vivo" />
-  <meta property="og:description" content="Tu canal favorito de entretenimiento en vivo las 24 horas." />
+  <meta property="og:description" content="Señal continua de televisión online sin interrupciones." />
   <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" />
@@ -16,221 +16,99 @@
 </head>
 <body>
 
-  <!-- Partículas de fondo -->
+  <!-- Partículas de fondo sutiles -->
   <div class="bg-particles" id="bgParticles"></div>
 
-  <!-- Header -->
+  <!-- Header minimalista -->
   <header class="site-header">
     <div class="header-inner">
       <div class="logo-wrap">
-        <img src="katuetetvlogo.png" alt="Katuete TV Logo" class="logo-img" />
+        <img src="katuetetvlogo.png" alt="Katuete TV" class="logo-img" />
       </div>
       <div class="live-badge">
         <span class="live-dot"></span>
         <span>EN VIVO</span>
       </div>
-      <nav class="site-nav">
-        <a href="#player-section" id="nav-transmision">Transmisión</a>
-        <a href="#about-section" id="nav-nosotros">Nosotros</a>
-        <a href="#contact-section" id="nav-contacto">Contacto</a>
-      </nav>
     </div>
   </header>
 
-  <!-- Hero Section -->
-  <section class="hero-section">
-    <div class="hero-glow"></div>
-    <div class="hero-content">
-      <p class="hero-eyebrow">Transmisión Oficial en Vivo</p>
-      <h1 class="hero-title">Tu entretenimiento<br /><span class="gradient-text">sin interrupciones</span></h1>
-      <p class="hero-subtitle">Disfruta de la señal directa en tiempo real las 24 horas del día, en cualquier dispositivo.</p>
-      <a href="#player-section" class="cta-btn" id="btn-ver-ahora">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-        Ver en Vivo
-      </a>
-    </div>
-    <div class="hero-visual">
-      <div class="tv-frame">
-        <div class="tv-screen-preview">
-          <img src="katuetetvlogo.png" alt="Katuete TV" class="tv-logo-preview" />
-          <div class="tv-scanlines"></div>
-        </div>
+  <!-- Única Sección Principal: Transmisión en Vivo -->
+  <main class="main-content">
+    <section class="player-section" id="player-section">
+      <div class="section-header">
+        <h1 class="section-title">Transmisión <span class="gradient-text">en Vivo</span></h1>
+        <p class="section-subtitle">Señal continua de televisión online sin interrupciones</p>
       </div>
-    </div>
-  </section>
 
-  <!-- Player Section (Canal único y automático) -->
-  <section class="player-section" id="player-section">
-    <div class="section-header">
-      <h2 class="section-title">Transmisión <span class="gradient-text">en Vivo</span></h2>
-      <p class="section-subtitle">Señal continua de televisión online sin interrupciones</p>
-    </div>
-
-    <div class="player-single-layout">
-      <div class="player-container" id="playerContainer">
-        <!-- Barra superior del player -->
-        <div class="player-header-bar">
-          <div class="live-indicator">
-            <span class="live-dot-sm"></span>
-            <span id="currentProgramTitle">Katuete TV — Señal Oficial en Vivo</span>
-          </div>
-          <div class="player-controls-top">
-            <span class="player-time" id="playerTime">--:--:--</span>
-          </div>
-        </div>
-
-        <!-- Contenedor del video con carga directa e inmediata -->
-        <div class="player-wrapper" id="playerWrapper">
-          <iframe
-            id="ytIframe"
-            src="https://www.youtube-nocookie.com/embed/Er5iy1Cyovg?autoplay=1&mute=1&controls=0&disablekb=1&fs=0&modestbranding=1&rel=0&loop=1&playlist=Er5iy1Cyovg&playsinline=1&enablejsapi=1"
-            title="Katuete TV — Transmisión en Vivo"
-            frameborder="0"
-            allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
-            allowfullscreen
-          ></iframe>
-
-          <!-- Botón flotante para activar sonido en vivo -->
-          <button id="unmuteOverlay" class="unmute-overlay" aria-label="Activar sonido en vivo">
-            <span class="unmute-pulse-dot"></span>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
-            </svg>
-            <span>Activar Sonido</span>
-          </button>
-        </div>
-
-        <!-- Controles exclusivos: únicamente Play y Pantalla Completa -->
-        <div class="player-bottom-bar">
-          <button class="player-btn" id="btnPlayPause" aria-label="Reproducir o pausar transmisión">
-            <svg id="iconPlay" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" style="display:none;">
-              <path d="M8 5v14l11-7z"/>
-            </svg>
-            <svg id="iconPause" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
-            </svg>
-            <span id="textPlayPause">Pausar</span>
-          </button>
-
-          <div class="player-live-badge-mini">
-            <span class="live-dot-sm"></span>
-            <span>TRANSMISIÓN EN VIVO</span>
+      <div class="player-single-layout">
+        <div class="player-container" id="playerContainer">
+          <!-- Barra superior del player -->
+          <div class="player-header-bar">
+            <div class="live-indicator">
+              <span class="live-dot-sm"></span>
+              <span id="currentProgramTitle">Katuete TV — Señal Oficial en Vivo</span>
+            </div>
+            <div class="player-controls-top">
+              <span class="player-time" id="playerTime">--:--:--</span>
+            </div>
           </div>
 
-          <button class="player-btn" id="btnFullscreen" aria-label="Expandir a pantalla completa">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>
-            </svg>
-            <span>Pantalla Completa</span>
-          </button>
-        </div>
-      </div>
-    </div>
-  </section>
+          <!-- Pantalla del video 100% limpia sin botones encima -->
+          <div class="player-wrapper" id="playerWrapper">
+            <iframe
+              id="ytIframe"
+              src="https://www.youtube-nocookie.com/embed/Er5iy1Cyovg?autoplay=1&mute=1&controls=0&disablekb=1&fs=0&modestbranding=1&rel=0&loop=1&playlist=Er5iy1Cyovg&playsinline=1&enablejsapi=1"
+              title="Katuete TV — Transmisión en Vivo"
+              frameborder="0"
+              allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
+              allowfullscreen
+            ></iframe>
+          </div>
 
-  <!-- About Section -->
-  <section class="about-section" id="about-section">
-    <div class="about-inner">
-      <div class="about-content">
-        <p class="section-eyebrow">Sobre Nosotros</p>
-        <h2 class="section-title">¿Qué es <span class="gradient-text">Katuete TV</span>?</h2>
-        <p class="about-text">
-          Katuete TV es tu canal de entretenimiento online disponible las 24 horas del día, los 7 días de la semana. 
-          Ofrecemos una transmisión continua con los mejores dibujos animados clásicos, series y contenido familiar 
-          de alta calidad para toda la audiencia.
-        </p>
-        <p class="about-text">
-          Nuestro compromiso es brindarte la mejor experiencia de televisión online, con una señal fluida 
-          y contenido de primer nivel, completamente gratis.
-        </p>
-        <div class="about-stats">
-          <div class="stat-item">
-            <span class="stat-number gradient-text">24/7</span>
-            <span class="stat-label">Transmisión</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-number gradient-text">100%</span>
-            <span class="stat-label">Gratis</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-number gradient-text">HD</span>
-            <span class="stat-label">Calidad</span>
+          <!-- Barra de controles abajo de la pantalla -->
+          <div class="player-bottom-bar">
+            <!-- 1. Botón Play / Pausa -->
+            <button class="player-btn" id="btnPlayPause" aria-label="Reproducir o pausar transmisión">
+              <svg id="iconPlay" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="display:none;">
+                <path d="M8 5v14l11-7z"/>
+              </svg>
+              <svg id="iconPause" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+              </svg>
+              <span id="textPlayPause">Pausar</span>
+            </button>
+
+            <!-- 2. Botón Activar / Silenciar Sonido (Abajo de la pantalla) -->
+            <button class="player-btn player-btn-audio pulse-audio" id="btnAudio" aria-label="Activar o desactivar sonido">
+              <svg id="iconMuted" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27l4.73 4.73H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+              </svg>
+              <svg id="iconUnmuted" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="display:none;">
+                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+              </svg>
+              <span id="textAudio">Activar Sonido</span>
+            </button>
+
+            <!-- 3. Botón Pantalla Completa -->
+            <button class="player-btn" id="btnFullscreen" aria-label="Expandir a pantalla completa">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>
+              </svg>
+              <span>Pantalla Completa</span>
+            </button>
           </div>
         </div>
       </div>
-      <div class="about-visual">
-        <div class="about-card">
-          <img src="katuetetvlogo.png" alt="Katuete TV" class="about-logo" />
-          <div class="about-card-glow"></div>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
+  </main>
 
-  <!-- Features -->
-  <section class="features-section">
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
-        </div>
-        <h3 class="feature-title">Streaming en Vivo</h3>
-        <p class="feature-text">Disfruta de contenido en tiempo real sin cortes ni demoras.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
-        </div>
-        <h3 class="feature-title">Contenido Continuo</h3>
-        <p class="feature-text">Series, animaciones y programas para toda la familia sin esperas.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V6h16v12zM6 10h2v2H6zm0 4h8v2H6zm10 0h2v2h-2zm-6-4h8v2h-8z"/></svg>
-        </div>
-        <h3 class="feature-title">Alta Definición</h3>
-        <p class="feature-text">Imágenes nítidas y sonido de calidad para una mejor experiencia.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
-        </div>
-        <h3 class="feature-title">Seguro y Familiar</h3>
-        <p class="feature-text">Contenido apto para toda la familia, seguro y de calidad.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Contact Section -->
-  <section class="contact-section" id="contact-section">
-    <div class="contact-inner">
-      <h2 class="section-title">¿Tienes <span class="gradient-text">preguntas</span>?</h2>
-      <p class="contact-subtitle">Estamos aquí para ayudarte. Escríbenos y te responderemos a la brevedad.</p>
-      <div class="contact-social">
-        <a href="#" class="social-btn" id="btn-youtube" aria-label="YouTube">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.543 6.498C22 8.28 22 12 22 12s0 3.72-.457 5.502c-.254.985-.997 1.76-1.938 2.022C17.896 20 12 20 12 20s-5.893 0-7.605-.476c-.945-.266-1.687-1.04-1.938-2.022C2 15.72 2 12 2 12s0-3.72.457-5.502c.254-.985.997-1.76 1.938-2.022C6.107 4 12 4 12 4s5.896 0 7.605.476c.945.266 1.687 1.04 1.938 2.022zM10 15.5l6-3.5-6-3.5v7z"/></svg>
-          YouTube
-        </a>
-        <a href="#" class="social-btn" id="btn-facebook" aria-label="Facebook">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-          Facebook
-        </a>
-        <a href="#" class="social-btn" id="btn-instagram" aria-label="Instagram">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-          Instagram
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
+  <!-- Footer discreto -->
   <footer class="site-footer">
     <div class="footer-inner">
       <div class="footer-logo">
         <img src="katuetetvlogo.png" alt="Katuete TV" class="footer-logo-img" />
       </div>
       <p class="footer-copy">&copy; 2026 Katuete TV — Todos los derechos reservados.</p>
-      <p class="footer-tagline">Tu canal, tu entretenimiento en vivo.</p>
     </div>
   </footer>
 

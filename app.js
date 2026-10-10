@@ -1,6 +1,6 @@
 /* =====================================================
    KATUETE TV — Transmisión Directa y Continua
-   Control de Player en Vivo (Play/Pausa y Pantalla Completa)
+   Control de Player en Vivo (Play/Pausa, Audio y Pantalla Completa)
    ===================================================== */
 
 let isPlaying = true;
@@ -41,19 +41,34 @@ function updatePlayState(playing) {
   }
 }
 
-// ── Ocultar botón de activar sonido ─────────────────
-function hideUnmuteOverlay() {
-  const unmuteBtn = document.getElementById("unmuteOverlay");
-  if (unmuteBtn) {
-    unmuteBtn.style.display = "none";
+// ── Actualizar interfaz del botón de Audio (Abajo de la pantalla) ──
+function updateAudioState(muted) {
+  isMuted = muted;
+  const iconMuted = document.getElementById("iconMuted");
+  const iconUnmuted = document.getElementById("iconUnmuted");
+  const textAudio = document.getElementById("textAudio");
+  const btnAudio = document.getElementById("btnAudio");
+
+  if (iconMuted && iconUnmuted && textAudio && btnAudio) {
+    if (isMuted) {
+      iconMuted.style.display = "inline";
+      iconUnmuted.style.display = "none";
+      textAudio.textContent = "Activar Sonido";
+      btnAudio.classList.add("pulse-audio");
+    } else {
+      iconMuted.style.display = "none";
+      iconUnmuted.style.display = "inline";
+      textAudio.textContent = "Silenciar";
+      btnAudio.classList.remove("pulse-audio");
+    }
   }
 }
 
 // ── Configurar Controles ────────────────────────────
 function setupControls() {
   const btnPlayPause = document.getElementById("btnPlayPause");
+  const btnAudio = document.getElementById("btnAudio");
   const btnFullscreen = document.getElementById("btnFullscreen");
-  const unmuteBtn = document.getElementById("unmuteOverlay");
   const playerContainer = document.getElementById("playerContainer");
 
   // 1. Botón Play / Pausa
@@ -63,23 +78,25 @@ function setupControls() {
         sendCommand("pauseVideo");
         updatePlayState(false);
       } else {
-        sendCommand("unMute");
-        sendCommand("setVolume", [100]);
         sendCommand("playVideo");
         updatePlayState(true);
-        hideUnmuteOverlay();
       }
     });
   }
 
-  // 2. Botón Activar Sonido
-  if (unmuteBtn) {
-    unmuteBtn.addEventListener("click", () => {
-      sendCommand("unMute");
-      sendCommand("setVolume", [100]);
-      sendCommand("playVideo");
-      updatePlayState(true);
-      hideUnmuteOverlay();
+  // 2. Botón Activar / Silenciar Sonido (Abajo de la pantalla)
+  if (btnAudio) {
+    btnAudio.addEventListener("click", () => {
+      if (isMuted) {
+        sendCommand("unMute");
+        sendCommand("setVolume", [100]);
+        sendCommand("playVideo");
+        updatePlayState(true);
+        updateAudioState(false);
+      } else {
+        sendCommand("mute");
+        updateAudioState(true);
+      }
     });
   }
 
@@ -167,26 +184,10 @@ function createParticles() {
   }
 }
 
-// ── Header scroll shadow ──────────────────────────────
-function initHeaderScroll() {
-  const header = document.querySelector(".site-header");
-  if (!header) return;
-  window.addEventListener("scroll", () => {
-    if (window.scrollY > 20) {
-      header.style.borderBottomColor = "rgba(237, 28, 49, 0.3)";
-      header.style.boxShadow = "0 4px 30px rgba(0,0,0,0.5)";
-    } else {
-      header.style.borderBottomColor = "rgba(237, 28, 49, 0.18)";
-      header.style.boxShadow = "none";
-    }
-  });
-}
-
 // ── Inicialización ────────────────────────────────────
 document.addEventListener("DOMContentLoaded", () => {
   createParticles();
   setupControls();
-  initHeaderScroll();
 
   // Reloj
   updateClock();
